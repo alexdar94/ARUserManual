@@ -14,7 +14,6 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
-import org.opencv.core.CvType;
 import org.opencv.core.DMatch;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
@@ -85,17 +84,24 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         descriptor = DescriptorExtractor.create(DescriptorExtractor.ORB);
         matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
         img1 = new Mat();
-//        AssetManager assetManager = getAssets();
-//        InputStream istr = assetManager.open("remote.jpg");
-//        Bitmap bitmap = BitmapFactory.decodeStream(istr);
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.remote);
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.remote_new);
         Utils.bitmapToMat(bitmap, img1);
         Imgproc.cvtColor(img1, img1, Imgproc.COLOR_RGB2GRAY);
-        img1.convertTo(img1, CvType.CV_8U); //converting the image to match with the type of the cameras image
+        img1.convertTo(img1, 0); //converting the image to match with the type of the cameras image
+        //Log.d("alexresolution 1",bitmap.getWidth() + ":" + bitmap.getHeight());
+        //Log.d("alexresolution 1",img1.cols() + ":" + img1.rows());
         descriptors1 = new Mat();
         keypoints_image = new MatOfKeyPoint();
         detector.detect(img1, keypoints_image);
         descriptor.compute(img1, keypoints_image, descriptors1);
+
+        /*Mat img2 = new Mat();
+        Bitmap bitmap2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.remote);
+        Utils.bitmapToMat(bitmap, img2);
+        Log.d("alexresolution 2",img2.cols() + ":" + img2.rows());
+
+        recognize(img2);
+        Log.d("alexrecognize",img2.cols() + ":" + img2.rows());*/
     }
 
     @Override
@@ -141,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         //Log.d("alex cols",img1.cols() +" : "+ aInputFrame.cols());
         //Log.d("alex type",img1.type() +" : "+ aInputFrame.type());
         //Log.d("alex descriptor type",descriptors1.type() +" : "+ descriptors2.type());
-        Log.d("alex descriptor cols",descriptors1.cols() +" : "+ descriptors2.cols());
+        //Log.d("alex descriptor cols",descriptors1.cols() +" : "+ descriptors2.cols());
         if (img1.type() == aInputFrame.type() && descriptors1.cols()==descriptors2.cols()) {
             matcher.match(descriptors1, descriptors2, matches);
         } else {
@@ -160,12 +166,15 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 max_dist = dist;
         }
 
+        List<KeyPoint> keypoints_imageList = keypoints_image.toList();
         LinkedList<DMatch> good_matches = new LinkedList<DMatch>();
         for (int i = 0; i < matchesList.size(); i++) {
-            if (matchesList.get(i).distance <= (1.5 * min_dist) && good_matches.get(i).queryIdx >)
+            if (matchesList.get(i).distance <= (1.5 * min_dist)){
                 good_matches.addLast(matchesList.get(i));
+                Log.d("alexqueryIdx",matchesList.get(i).queryIdx+" "+keypoints_image.toList().get(matchesList.get(i).queryIdx).pt.toString());
+            }
         }
-
+        //Log.d("alex last",good_matches.getLast().toString());
         MatOfDMatch goodMatches = new MatOfDMatch();
         goodMatches.fromList(good_matches);
         Mat outputImg = new Mat();
@@ -175,23 +184,23 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             return aInputFrame;
         }
 
-        Log.d("alex keypoints_image", keypoints_image.toString());
-        Log.d("alex keypoints_camera", keypoints_camera.toString());
+        //Log.d("alex keypoints_image", keypoints_image.toString());
+        //Log.d("alex keypoints_camera", keypoints_camera.toString());
         Features2d.drawMatches(img1, keypoints_image, aInputFrame, keypoints_camera, goodMatches, outputImg, GREEN, RED, drawnMatches, Features2d.NOT_DRAW_SINGLE_POINTS);
         Imgproc.resize(outputImg, outputImg, aInputFrame.size());
 
-        LinkedList<Point> cameraList = new LinkedList<Point>();
+        // Get x & y of matches on camera
+        /*LinkedList<Point> cameraList = new LinkedList<Point>();
         List<KeyPoint> keypoints_cameraList = keypoints_camera.toList();
         for (int i = 0; i < 3; i++) {
             //Log.d("alex queryIdx",good_matches.get(i).queryIdx +"");
             //Log.d("alex trainIdx",good_matches.get(i).trainIdx +"");
             Log.d("alex trainIdx", keypoints_cameraList.get(good_matches.get(i).trainIdx).pt +"");
-        }
+        }*/
+        //Features2d.drawKeypoints(aInputFrame,,aInputFrame,new Scalar(0, 255, 0, 255), Features2d.NOT_DRAW_SINGLE_POINTS);
 
-        Features2d.drawKeypoints(aInputFrame,keypoints_camera,aInputFrame,new Scalar(0, 255, 0, 255), Features2d.NOT_DRAW_SINGLE_POINTS);
-
-        //return outputImg;
-        return aInputFrame;
+        return outputImg;
+        //return aInputFrame;
     }
 
     @Override
