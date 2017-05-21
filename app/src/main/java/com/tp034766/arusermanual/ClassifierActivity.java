@@ -1,7 +1,9 @@
 package com.tp034766.arusermanual;
 
 import android.content.Context;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -10,6 +12,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.tp034766.arusermanual.model3D.services.SceneLoader;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -33,7 +37,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 
 public class ClassifierActivity extends AppCompatActivity implements CvCameraViewListener2 {
 
@@ -68,7 +71,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
     private File mCascadeFile;
     private File mCascadeFileEye;
     private CascadeClassifier mJavaDetector;
-    private CascadeClassifier mJavaDetectorEye;
+    //private CascadeClassifier mJavaDetectorEye;
 
 
     private int mDetectorType = JAVA_DETECTOR;
@@ -84,6 +87,20 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
     double xCenter = -1;
     double yCenter = -1;
 
+    private SceneLoader scene;
+    private Handler handler;
+    private GLSurfaceView gLView;
+    private String paramAssetDir;
+    private String paramAssetFilename;
+    /**
+     * The file to load. Passed as input parameter
+     */
+    private String paramFilename;
+    /**
+     * Enter into Android Immersive mode so the renderer is full screen or not
+     */
+    private boolean immersiveMode = true;
+
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -93,9 +110,10 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 
                     try {
                         // load cascade file from application resources
-                        InputStream is = getResources().openRawResource(R.raw.lbpcascade_frontalface);
+                        InputStream is = getResources().openRawResource(R.raw.haarcascade_mcs_nose);
+                        //InputStream is = getResources().openRawResource(R.raw.haarcascade_setbutton);
                         File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
-                        mCascadeFile = new File(cascadeDir, "lbpcascade_frontalface.xml");
+                        mCascadeFile = new File(cascadeDir, "haarcascade_mcs_nose.xml");
                         FileOutputStream os = new FileOutputStream(mCascadeFile);
 
                         byte[] buffer = new byte[4096];
@@ -107,16 +125,16 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
                         os.close();
 
                         // load cascade file from application resources
-                        InputStream ise = getResources().openRawResource(R.raw.haarcascade_lefteye_2splits);
+                        /*InputStream ise = getResources().openRawResource(R.raw.haarcascade_smile);
                         File cascadeDirEye = getDir("cascade", Context.MODE_PRIVATE);
-                        mCascadeFileEye = new File(cascadeDirEye, "haarcascade_lefteye_2splits.xml");
+                        mCascadeFileEye = new File(cascadeDirEye, "haarcascade_smile.xml");
                         FileOutputStream ose = new FileOutputStream(mCascadeFileEye);
 
                         while ((bytesRead = ise.read(buffer)) != -1) {
                             ose.write(buffer, 0, bytesRead);
                         }
                         ise.close();
-                        ose.close();
+                        ose.close();*/
 
                         mJavaDetector = new CascadeClassifier(mCascadeFile.getAbsolutePath());
                         if (mJavaDetector.empty()) {
@@ -125,7 +143,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
                         } else
                             Log.i(TAG, "Loaded cascade classifier from " + mCascadeFile.getAbsolutePath());
 
-                        mJavaDetectorEye = new CascadeClassifier(mCascadeFileEye.getAbsolutePath());
+                        /*mJavaDetectorEye = new CascadeClassifier(mCascadeFileEye.getAbsolutePath());
                         if (mJavaDetectorEye.empty()) {
                             Log.e(TAG, "Failed to load cascade classifier for eye");
                             mJavaDetectorEye = null;
@@ -133,7 +151,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
                             Log.i(TAG, "Loaded cascade classifier from " + mCascadeFileEye.getAbsolutePath());
 
                         cascadeDir.delete();
-                        cascadeDirEye.delete();
+                        cascadeDirEye.delete();*/
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -152,6 +170,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
         }
     };
 
+
     public ClassifierActivity() {
         mDetectorName = new String[2];
         mDetectorName[JAVA_DETECTOR] = "Java";
@@ -168,6 +187,8 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+//        gLView = new ModelSurfaceView(this);
+//        setContentView(gLView);
         setContentView(R.layout.activity_classifier);
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.cameraView_ClassifierActivity);
@@ -177,17 +198,14 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
         mValue = (TextView) findViewById(R.id.method);
 
         mMethodSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
-
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
-
             }
 
             @Override
@@ -214,10 +232,17 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
                         mValue.setText("TM_CCORR_NORMED");
                         break;
                 }
-
-
             }
         });
+
+        gLView = (ModelSurfaceView)findViewById(R.id.modelSurfaceView);
+        this.paramAssetDir = "models";
+        this.paramAssetFilename = "ship.obj";
+        this.immersiveMode = true;
+
+        handler = new Handler(getMainLooper());
+        scene = new SceneLoader(this);
+        scene.init();
     }
 
     @Override
@@ -252,8 +277,11 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
     public void onCameraViewStopped() {
         mGray.release();
         mRgba.release();
-        mZoomWindow.release();
-        mZoomWindow2.release();
+
+        if(mZoomWindow != null && mZoomWindow2!= null){
+            mZoomWindow.release();
+            mZoomWindow2.release();
+        }
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
@@ -293,51 +321,47 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 
             Imgproc.putText(mRgba, "[" + center.x + "," + center.y + "]",
                     new Point(center.x + 20, center.y + 20),
-                    Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 255,
-                            255));
+                    Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 255, 255));
 
             Rect r = facesArray[i];
             // compute the eye area
-            Rect eyearea = new Rect(r.x + r.width / 8,
-                    (int) (r.y + (r.height / 4.5)), r.width - 2 * r.width / 8,
-                    (int) (r.height / 3.0));
+//            Rect eyearea = new Rect(r.x + r.width / 8,
+//                    (int) (r.y + (r.height / 4.5)), r.width - 2 * r.width / 8,
+//                    (int) (r.height / 3.0));
             // split it
-            Rect eyearea_right = new Rect(r.x + r.width / 16,
-                    (int) (r.y + (r.height / 4.5)),
-                    (r.width - 2 * r.width / 16) / 2, (int) (r.height / 3.0));
-            Rect eyearea_left = new Rect(r.x + r.width / 16
-                    + (r.width - 2 * r.width / 16) / 2,
-                    (int) (r.y + (r.height / 4.5)),
-                    (r.width - 2 * r.width / 16) / 2, (int) (r.height / 3.0));
+//            Rect eyearea_right = new Rect(r.x + r.width / 16,
+//                    (int) (r.y + (r.height / 4.5)),
+//                    (r.width - 2 * r.width / 16) / 2, (int) (r.height / 3.0));
+//            Rect eyearea_left = new Rect(r.x + r.width / 16
+//                    + (r.width - 2 * r.width / 16) / 2,
+//                    (int) (r.y + (r.height / 4.5)),
+//                    (r.width - 2 * r.width / 16) / 2, (int) (r.height / 3.0));
             // draw the area - mGray is working grayscale mat, if you want to
             // see area in rgb preview, change mGray to mRgba
-            Imgproc.rectangle(mRgba, eyearea_left.tl(), eyearea_left.br(),
-                    new Scalar(255, 0, 0, 255), 2);
-            Imgproc.rectangle(mRgba, eyearea_right.tl(), eyearea_right.br(),
-                    new Scalar(255, 0, 0, 255), 2);
+//            Imgproc.rectangle(mRgba, eyearea_left.tl(), eyearea_left.br(),
+//                    new Scalar(255, 0, 0, 255), 2);
+//            Imgproc.rectangle(mRgba, eyearea_right.tl(), eyearea_right.br(),
+//                    new Scalar(255, 0, 0, 255), 2);
 
-            if (learn_frames < 5) {
-                teplateR = get_template(mJavaDetectorEye, eyearea_right, 24);
-                teplateL = get_template(mJavaDetectorEye, eyearea_left, 24);
-                learn_frames++;
-            } else {
-                // Learning finished, use the new templates for template
-                // matching
-                match_eye(eyearea_right, teplateR, method);
-                match_eye(eyearea_left, teplateL, method);
-
-            }
+//            if (learn_frames < 5) {
+//                teplateR = get_template(mJavaDetectorEye, eyearea_right, 24);
+//                teplateL = get_template(mJavaDetectorEye, eyearea_left, 24);
+//                learn_frames++;
+//            } else {
+//                // Learning finished, use the new templates for template
+//                // matching
+//                match_eye(eyearea_right, teplateR, method);
+//                match_eye(eyearea_left, teplateL, method);
+//
+//            }
 
 
             // cut eye areas and put them to zoom windows
-            Imgproc.resize(mRgba.submat(eyearea_left), mZoomWindow2,
-                    mZoomWindow2.size());
-            Imgproc.resize(mRgba.submat(eyearea_right), mZoomWindow,
-                    mZoomWindow.size());
-
-
+//            Imgproc.resize(mRgba.submat(eyearea_left), mZoomWindow2,
+//                    mZoomWindow2.size());
+//            Imgproc.resize(mRgba.submat(eyearea_right), mZoomWindow,
+//                    mZoomWindow.size());
         }
-
         return mRgba;
     }
 
@@ -437,8 +461,6 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
         Imgproc.rectangle(mRgba, matchLoc_tx, matchLoc_ty, new Scalar(255, 255, 0,
                 255));
         Rect rec = new Rect(matchLoc_tx, matchLoc_ty);
-
-
     }
 
     private Mat get_template(CascadeClassifier clasificator, Rect area, int size) {
@@ -483,4 +505,27 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
         learn_frames = 0;
     }
 
+    public File getParamFile() {
+        return getParamFilename() != null ? new File(getParamFilename()) : null;
+    }
+
+    public String getParamAssetDir() {
+        return paramAssetDir;
+    }
+
+    public String getParamAssetFilename() {
+        return paramAssetFilename;
+    }
+
+    public String getParamFilename() {
+        return paramFilename;
+    }
+
+    public SceneLoader getScene() {
+        return scene;
+    }
+
+    public GLSurfaceView getgLView() {
+        return gLView;
+    }
 }
