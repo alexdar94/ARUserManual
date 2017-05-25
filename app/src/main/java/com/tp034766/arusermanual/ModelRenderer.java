@@ -32,6 +32,7 @@ import static android.content.ContentValues.TAG;
 public class ModelRenderer implements GLSurfaceView.Renderer {
     // 3D window (parent component)
     private ModelSurfaceView main;
+    private ClassifierActivity parent;
     // width of the screen
     private int width;
     // height of the screen
@@ -62,8 +63,8 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
     // light position required to render with lighting
     private final float[] lightPosInEyeSpace = new float[4];
 
-    public ModelRenderer(ModelSurfaceView modelSurfaceView) {
-        this.main = modelSurfaceView;
+    public ModelRenderer(ClassifierActivity parent) {
+        this.parent = parent;
     }
 
     public float getNear() {
@@ -105,7 +106,7 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
             camera.setChanged(false);
         }
 
-        SceneLoader scene = main.getModelActivity().getScene();
+        SceneLoader scene = parent.getScene();
         if (scene == null) {
             // scene not ready
             return;
@@ -206,7 +207,7 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
                 // TODO: enable this only when user wants it
                 // obj3D.drawVectorNormals(result, modelViewMatrix);
             } catch (IOException ex) {
-                Toast.makeText(main.getModelActivity().getApplicationContext(),
+                Toast.makeText(parent.getApplicationContext(),
                         "There was a problem creating 3D object", Toast.LENGTH_LONG).show();
             }
         }

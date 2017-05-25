@@ -21,7 +21,7 @@ public class ModelSurfaceView extends GLSurfaceView {
         // Create an OpenGL ES 2.0 context
         setEGLContextClientVersion(2);
 
-        mRenderer = new ModelRenderer(this);
+        mRenderer = new ModelRenderer(parent);
 
         // Set the Renderer for drawing on the GLSurfaceView
         setRenderer(mRenderer);
@@ -31,6 +31,7 @@ public class ModelSurfaceView extends GLSurfaceView {
     public ModelSurfaceView(Context context, AttributeSet attribs) {
         super(context, attribs);
 
+        this.parent = (ClassifierActivity)context;
         // Create an OpenGL ES 2.0 context
         setEGLContextClientVersion(2);
 
@@ -38,7 +39,7 @@ public class ModelSurfaceView extends GLSurfaceView {
         setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
-        mRenderer = new ModelRenderer(this);
+        mRenderer = new ModelRenderer(parent);
 
         // Set the Renderer for drawing on the GLSurfaceView
         setRenderer(mRenderer);

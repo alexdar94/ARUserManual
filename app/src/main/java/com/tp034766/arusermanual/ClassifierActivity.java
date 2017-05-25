@@ -3,7 +3,6 @@ package com.tp034766.arusermanual;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -88,7 +87,6 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
     double yCenter = -1;
 
     private SceneLoader scene;
-    private Handler handler;
     private GLSurfaceView gLView;
     private String paramAssetDir;
     private String paramAssetFilename;
@@ -240,7 +238,6 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
         this.paramAssetFilename = "ship.obj";
         this.immersiveMode = true;
 
-        handler = new Handler(getMainLooper());
         scene = new SceneLoader(this);
         scene.init();
     }
