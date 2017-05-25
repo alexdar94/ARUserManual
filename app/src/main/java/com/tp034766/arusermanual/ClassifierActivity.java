@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ClassifierActivity extends AppCompatActivity implements CvCameraViewListener2 {
+    private Product product;
 
     private static final String TAG = "OCVSample::Activity";
     private static final Scalar FACE_RECT_COLOR = new Scalar(0, 255, 0, 255);
@@ -108,10 +109,10 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 
                     try {
                         // load cascade file from application resources
-                        InputStream is = getResources().openRawResource(R.raw.haarcascade_mcs_nose);
+                        InputStream is = getResources().openRawResource(product.haarClassifier);
                         //InputStream is = getResources().openRawResource(R.raw.haarcascade_setbutton);
                         File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
-                        mCascadeFile = new File(cascadeDir, "haarcascade_mcs_nose.xml");
+                        mCascadeFile = new File(cascadeDir, product.haarClassifierName);
                         FileOutputStream os = new FileOutputStream(mCascadeFile);
 
                         byte[] buffer = new byte[4096];
@@ -189,6 +190,8 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 //        setContentView(gLView);
         setContentView(R.layout.activity_classifier);
 
+        product = (Product) getIntent().getSerializableExtra("PRODUCT");
+
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.cameraView_ClassifierActivity);
         mOpenCvCameraView.setCvCameraViewListener(this);
 
@@ -233,13 +236,13 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
             }
         });
 
-        gLView = (ModelSurfaceView)findViewById(R.id.modelSurfaceView);
+        /*gLView = (ModelSurfaceView)findViewById(R.id.modelSurfaceView);
         this.paramAssetDir = "models";
         this.paramAssetFilename = "ship.obj";
         this.immersiveMode = true;
 
         scene = new SceneLoader(this);
-        scene.init();
+        scene.init();*/
     }
 
     @Override
