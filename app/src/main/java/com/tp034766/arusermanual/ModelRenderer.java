@@ -215,14 +215,6 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         // Set surfaceView background to transparent
-        gl.glDisable(GL10.GL_DITHER);
-        gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT,
-                GL10.GL_FASTEST);
-
-        gl.glClearColor(0,0,0,0);
-        gl.glEnable(GL10.GL_CULL_FACE);
-        gl.glShadeModel(GL10.GL_SMOOTH);
-        gl.glEnable(GL10.GL_DEPTH_TEST);
 
         this.width = width;
         this.height = height;

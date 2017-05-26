@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <!--<com.tp034766.arusermanual.ModelSurfaceView
+    <com.tp034766.arusermanual.ModelSurfaceView
         android:id="@+id/modelSurfaceView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>-->
+        android:layout_height="match_parent"/>
 
     <org.opencv.android.JavaCameraView
         android:layout_width="fill_parent"

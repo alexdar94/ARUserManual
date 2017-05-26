@@ -236,13 +236,13 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
             }
         });
 
-        /*gLView = (ModelSurfaceView)findViewById(R.id.modelSurfaceView);
+        gLView = (ModelSurfaceView)findViewById(R.id.modelSurfaceView);
         this.paramAssetDir = "models";
-        this.paramAssetFilename = "ship.obj";
+        this.paramAssetFilename = "tooth_brush.obj";
         this.immersiveMode = true;
 
         scene = new SceneLoader(this);
-        scene.init();*/
+        scene.init();
     }
 
     @Override
