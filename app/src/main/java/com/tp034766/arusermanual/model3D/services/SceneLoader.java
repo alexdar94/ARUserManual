@@ -237,6 +237,10 @@ public class SceneLoader {
 		requestRender();
 	}
 
+	public void offLighting(){
+		this.drawLighting = false;
+	}
+
 	public boolean isDrawTextures() {
 		return drawTextures;
 	}

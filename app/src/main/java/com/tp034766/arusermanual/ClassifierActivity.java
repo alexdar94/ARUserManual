@@ -238,10 +238,11 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 
         gLView = (ModelSurfaceView)findViewById(R.id.modelSurfaceView);
         this.paramAssetDir = "models";
-        this.paramAssetFilename = "tooth_brush.obj";
+        this.paramAssetFilename = "bremenmask.obj";
         this.immersiveMode = true;
 
         scene = new SceneLoader(this);
+        scene.offLighting();
         scene.init();
     }
 
@@ -362,6 +363,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 //            Imgproc.resize(mRgba.submat(eyearea_right), mZoomWindow,
 //                    mZoomWindow.size());
         }
+        //((ModelSurfaceView)gLView).getRenderer().getCamera().MoveCameraZ(Math.random() < 0.5 ? (float)((1-Math.random()) * 2) : (float)(Math.random() * 2));
         return mRgba;
     }
 

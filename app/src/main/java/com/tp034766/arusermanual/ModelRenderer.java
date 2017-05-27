@@ -77,7 +77,7 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // Set the background frame color
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         // Enable depth testing for hidden-surface elimination.
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -214,8 +214,6 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        // Set surfaceView background to transparent
-
         this.width = width;
         this.height = height;
         GLES20.glViewport(0, 0, width, height);
