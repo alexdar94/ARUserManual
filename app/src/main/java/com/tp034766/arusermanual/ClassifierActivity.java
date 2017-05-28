@@ -310,7 +310,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
             Log.e(TAG, "Detection method is not selected!");
         }
 
-        Rect[] facesArray = faces.toArray();
+        final Rect[] facesArray = faces.toArray();
         for (int i = 0; i < facesArray.length; i++) {
             Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(),
                     FACE_RECT_COLOR, 3);
@@ -363,7 +363,19 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 //            Imgproc.resize(mRgba.submat(eyearea_right), mZoomWindow,
 //                    mZoomWindow.size());
         }
-        //((ModelSurfaceView)gLView).getRenderer().getCamera().MoveCameraZ(Math.random() < 0.5 ? (float)((1-Math.random()) * 2) : (float)(Math.random() * 2));
+        ((ModelSurfaceView)gLView).getRenderer().getCamera().translateCamera(1,0.5f);
+        /*runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(facesArray.length>0){
+                    RelativeLayout.LayoutParams layoutParams=new RelativeLayout.LayoutParams(facesArray[0].width, facesArray[0].height);
+                    layoutParams.leftMargin = (facesArray[0].x + facesArray[0].width + facesArray[0].x) / 2;
+                    layoutParams.topMargin = (facesArray[0].y + facesArray[0].y + facesArray[0].height) / 2;
+                    gLView.setLayoutParams(layoutParams);
+                }
+            }
+        });*/
+
         return mRgba;
     }
 

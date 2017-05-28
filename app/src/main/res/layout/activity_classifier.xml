@@ -9,8 +9,8 @@
         android:layout_height="match_parent"/>
 
     <org.opencv.android.JavaCameraView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/cameraView_ClassifierActivity" />
 
     <!--<Button
@@ -34,14 +34,14 @@
 
     <LinearLayout
         android:id="@+id/seekbars"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
         <SeekBar
             android:id="@+id/methodSeekBar"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="5"
             android:paddingLeft="5dip"

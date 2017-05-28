@@ -129,11 +129,13 @@ public abstract class Object3DImpl implements Object3D {
 		}
 		if (obj.getPosition() != null) {
 			Matrix.translateM(mMatrix, 0, obj.getPositionX(), obj.getPositionY(), obj.getPositionZ());
+			//Matrix.translateM(mMatrix, 0, -0.2f, +0.1f, 0);
 		}
 		return mMatrix;
 	}
 
 	public float[] getMvMatrix(float[] mMatrix, float[] vMatrix) {
+		//Matrix.translateM(vMatrix, 0, vMatrix., vMatrix.getPositionY(), vMatrix.getPositionZ());
 		Matrix.multiplyMM(mvMatrix, 0, vMatrix, 0, mMatrix, 0);
 		return mvMatrix;
 	}
