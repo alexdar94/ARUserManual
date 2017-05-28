@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -27,6 +29,8 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
+import org.rajawali3d.surface.IRajawaliSurface;
+import org.rajawali3d.surface.RajawaliSurfaceView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -218,6 +222,17 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
             }
         });
 
+        final RajawaliSurfaceView surfaceView = new RajawaliSurfaceView(this);
+        surfaceView.setFrameRate(60.0);
+        surfaceView.setRenderMode(IRajawaliSurface.RENDERMODE_WHEN_DIRTY);
+        surfaceView.setTransparent(true);
+        addContentView(surfaceView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+
+        Renderer mRenderer = new Renderer(this);
+        mRenderer.setSurfaceView(surfaceView);
+        surfaceView.setSurfaceRenderer(mRenderer);
+
+        mRenderer.setCameraPosition(0, 0, 20);
     }
 
     @Override
