@@ -1,18 +1,14 @@
 package com.tp034766.arusermanual;
 
 import android.content.Context;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import com.tp034766.arusermanual.model3D.services.SceneLoader;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -73,7 +69,6 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
     private CascadeClassifier mJavaDetector;
     //private CascadeClassifier mJavaDetectorEye;
 
-
     private int mDetectorType = JAVA_DETECTOR;
     private String[] mDetectorName;
 
@@ -86,19 +81,6 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 
     double xCenter = -1;
     double yCenter = -1;
-
-    private SceneLoader scene;
-    private GLSurfaceView gLView;
-    private String paramAssetDir;
-    private String paramAssetFilename;
-    /**
-     * The file to load. Passed as input parameter
-     */
-    private String paramFilename;
-    /**
-     * Enter into Android Immersive mode so the renderer is full screen or not
-     */
-    private boolean immersiveMode = true;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -236,14 +218,6 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
             }
         });
 
-        gLView = (ModelSurfaceView)findViewById(R.id.modelSurfaceView);
-        this.paramAssetDir = "models";
-        this.paramAssetFilename = "bremenmask.obj";
-        this.immersiveMode = true;
-
-        scene = new SceneLoader(this);
-        scene.offLighting();
-        scene.init();
     }
 
     @Override
@@ -363,7 +337,6 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 //            Imgproc.resize(mRgba.submat(eyearea_right), mZoomWindow,
 //                    mZoomWindow.size());
         }
-        ((ModelSurfaceView)gLView).getRenderer().getCamera().translateCamera(1,0.5f);
         /*runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -513,33 +486,5 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
             return template;
         }
         return template;
-    }
-
-    public void onRecreateClick(View v) {
-        learn_frames = 0;
-    }
-
-    public File getParamFile() {
-        return getParamFilename() != null ? new File(getParamFilename()) : null;
-    }
-
-    public String getParamAssetDir() {
-        return paramAssetDir;
-    }
-
-    public String getParamAssetFilename() {
-        return paramAssetFilename;
-    }
-
-    public String getParamFilename() {
-        return paramFilename;
-    }
-
-    public SceneLoader getScene() {
-        return scene;
-    }
-
-    public GLSurfaceView getgLView() {
-        return gLView;
     }
 }
