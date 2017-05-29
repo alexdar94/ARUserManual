@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -238,7 +239,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 
         gLView = (ModelSurfaceView)findViewById(R.id.modelSurfaceView);
         this.paramAssetDir = "models";
-        this.paramAssetFilename = "bremenmask.obj";
+        this.paramAssetFilename = "ArrowSign.obj";
         this.immersiveMode = true;
 
         scene = new SceneLoader(this);
@@ -311,7 +312,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
         }
 
         final Rect[] facesArray = faces.toArray();
-        for (int i = 0; i < facesArray.length; i++) {
+        /*for (int i = 0; i < facesArray.length; i++) {
             Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(),
                     FACE_RECT_COLOR, 3);
             xCenter = (facesArray[i].x + facesArray[i].width + facesArray[i].x) / 2;
@@ -362,9 +363,18 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 //                    mZoomWindow2.size());
 //            Imgproc.resize(mRgba.submat(eyearea_right), mZoomWindow,
 //                    mZoomWindow.size());
+        }*/
+
+        if(facesArray.length>0) {
+            Imgproc.rectangle(mRgba, facesArray[0].tl(), facesArray[0].br(),
+                    FACE_RECT_COLOR, 3);
+            xCenter = (facesArray[0].x + facesArray[0].width + facesArray[0].x) / 2;
+            yCenter = (facesArray[0].y + facesArray[0].y + facesArray[0].height) / 2;
+            //((ModelSurfaceView) gLView).getRenderer().moveModel(-1.,0);
+            Log.e("alex","x: "+xCenter+ " "+ "y: "+yCenter );
+            gLView.requestRender();
         }
-        ((ModelSurfaceView)gLView).getRenderer().getCamera().translateCamera(1,0.5f);
-        /*runOnUiThread(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if(facesArray.length>0){
@@ -374,7 +384,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
                     gLView.setLayoutParams(layoutParams);
                 }
             }
-        });*/
+        });
 
         return mRgba;
     }

@@ -243,6 +243,14 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
         return shader;
     }
 
+    public void moveModel(float x, float y){
+//        Matrix.setIdentityM(modelViewMatrix, 0);
+        Matrix.translateM(modelViewMatrix, 0, x, y, 0);
+        //Matrix.scaleM(modelViewMatrix, 0, 1, 1,0);
+        //Matrix.rotateM(modelViewMatrix, 0, 1f, 0.0f, 0.0f, 1.0f);
+
+    }
+
     public int getWidth() {
         return width;
     }

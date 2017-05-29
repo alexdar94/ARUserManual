@@ -57,7 +57,8 @@ public abstract class Object3DImpl implements Object3D {
 		// Add program to OpenGL environment
 		GLES20.glUseProgram(mProgram);
 
-		float[] mMatrix = getMMatrix(obj);
+
+        float[] mMatrix = getMMatrix(obj);
 		float[] mvMatrix = getMvMatrix(mMatrix, vMatrix);
 		float[] mvpMatrix = getMvpMatrix(mvMatrix, pMatrix);
 
@@ -129,7 +130,6 @@ public abstract class Object3DImpl implements Object3D {
 		}
 		if (obj.getPosition() != null) {
 			Matrix.translateM(mMatrix, 0, obj.getPositionX(), obj.getPositionY(), obj.getPositionZ());
-			//Matrix.translateM(mMatrix, 0, -0.2f, +0.1f, 0);
 		}
 		return mMatrix;
 	}
