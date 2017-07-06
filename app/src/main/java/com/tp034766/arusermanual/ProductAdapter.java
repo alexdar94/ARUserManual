@@ -6,7 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -24,18 +27,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView productName;
-
+        TextView productName,productBrand, productModel;
+        ImageView productPic;
         public ViewHolder(View v) {
             super(v);
 
             productName = (TextView) v.findViewById(R.id.myProducts_textView_productName);
+            productBrand = (TextView) v.findViewById(R.id.myProducts_textView_productBrand);
+            productModel = (TextView) v.findViewById(R.id.myProducts_textView_productModel);
+            productPic = (ImageView) v.findViewById(R.id.myProducts_imageView_productPic);
             v.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(context, ClassifierActivity.class);
+            Intent intent = new Intent(context, ProductActivity.class);
             intent.putExtra("PRODUCT",products.get(getAdapterPosition()));
             context.startActivity(intent);
         }
@@ -51,6 +57,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @Override
     public void onBindViewHolder(ProductAdapter.ViewHolder holder, int position) {
         holder.productName.setText(products.get(position).name);
+        holder.productBrand.setText(products.get(position).brandName);
+        holder.productModel.setText(products.get(position).modelCode);
+        Picasso.with(context).load(products.get(position).productImgUrl).placeholder(R.mipmap.ic_launcher).into(holder.productPic);
     }
 
     @Override

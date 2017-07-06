@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#4a90e2</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <color name="theme_purple">#b572c0</color>
+    <color name="theme_green">#00d17e</color>
+    <color name="theme_light_blue">#15c5d9</color>
+    <color name="theme_blue">#4a90e2</color>
 </resources>

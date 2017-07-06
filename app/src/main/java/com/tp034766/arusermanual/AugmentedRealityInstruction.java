@@ -1,10 +1,12 @@
 package com.tp034766.arusermanual;
 
+import java.io.Serializable;
+
 /**
  * Created by User on 7/6/2017.
  */
 
-public class AugmentedRealityInstruction {
+public class AugmentedRealityInstruction implements Serializable {
     int stepNo;
     String textInstruction;
     String haarClassifierName;

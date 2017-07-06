@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tp034766.arusermanual.ProductActivity">
+
+    <ImageView
+        android:id="@+id/product_imageView_productPic"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+    
+    <TextView
+        android:id="@+id/product_textView_productName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:textSize="18sp"
+        android:layout_below="@id/product_imageView_productPic"/>
+
+    <TextView
+        android:id="@+id/product_textView_productBrand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:textSize="18sp"
+        android:layout_below="@id/product_textView_productName"/>
+
+    <TextView
+        android:id="@+id/product_textView_productModel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:textSize="18sp"
+        android:layout_below="@id/product_textView_productBrand"/>
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/product_button_onlineTut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fbutton:buttonColor="@color/theme_purple"
+        fbutton:shadowEnabled="true"
+        fbutton:shadowHeight="5dp"
+        fbutton:cornerRadius="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/product_button_videoTut"
+        android:layout_marginBottom="8dp"
+        android:text="View Tutorial Online"
+        android:textColor="@android:color/white"/>
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/product_button_videoTut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fbutton:buttonColor="@color/theme_green"
+        fbutton:shadowEnabled="true"
+        fbutton:shadowHeight="5dp"
+        fbutton:cornerRadius="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/product_button_textTut"
+        android:layout_marginBottom="8dp"
+        android:text="Video Tutorial"
+        android:textColor="@android:color/white"/>
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/product_button_textTut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fbutton:buttonColor="@color/theme_light_blue"
+        fbutton:shadowEnabled="true"
+        fbutton:shadowHeight="5dp"
+        fbutton:cornerRadius="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/product_button_ARTut"
+        android:layout_marginBottom="8dp"
+        android:text="Text User Manual"
+        android:textColor="@android:color/white"/>
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/product_button_ARTut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fbutton:buttonColor="@color/theme_blue"
+        fbutton:shadowEnabled="true"
+        fbutton:shadowHeight="5dp"
+        fbutton:cornerRadius="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="AR User Manual"
+        android:textColor="@android:color/white"/>
+</RelativeLayout>
