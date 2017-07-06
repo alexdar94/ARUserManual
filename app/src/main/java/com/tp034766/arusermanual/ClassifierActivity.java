@@ -38,6 +38,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static org.opencv.android.CameraBridgeViewBase.CAMERA_ID_BACK;
+import static org.opencv.android.CameraBridgeViewBase.CAMERA_ID_FRONT;
+
 public class ClassifierActivity extends AppCompatActivity implements CvCameraViewListener2 {
     private Product product;
 
@@ -84,6 +87,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
     private CameraBridgeViewBase mOpenCvCameraView;
     private SeekBar mMethodSeekbar;
     private TextView mValue;
+    private int mCameraId = CAMERA_ID_FRONT;
 
     double xCenter = -1;
     double yCenter = -1;
@@ -110,10 +114,23 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 
                     try {
                         // load cascade file from application resources
-                        InputStream is = getResources().openRawResource(product.haarClassifier);
-                        //InputStream is = getResources().openRawResource(R.raw.haarcascade_setbutton);
+                        InputStream is;
+                        String haarClassifierName = product.instructions.get(0).haarClassifierName;
+                        switch(haarClassifierName){
+                            case "lbpcascade_frontalface.xml":
+                                is= getResources().openRawResource(R.raw.lbpcascade_frontalface); break;
+                            case "haarcascade_smile.xml":
+                                is= getResources().openRawResource(R.raw.haarcascade_smile); break;
+                            case "haarcascade_remotecontrol.xml":
+                                is= getResources().openRawResource(R.raw.haarcascade_remotecontrol); break;
+                            case "haarcascade_mcs_nose.xml":
+                                is= getResources().openRawResource(R.raw.haarcascade_mcs_nose); break;
+                            default:
+                                is= getResources().openRawResource(R.raw.haarcascade_remotecontrol); break;
+                        }
+
                         File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
-                        mCascadeFile = new File(cascadeDir, product.haarClassifierName);
+                        mCascadeFile = new File(cascadeDir, haarClassifierName);
                         FileOutputStream os = new FileOutputStream(mCascadeFile);
 
                         byte[] buffer = new byte[4096];
@@ -169,6 +186,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
             }
         }
     };
+
 
 
     public ClassifierActivity() {
@@ -371,8 +389,9 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
             xCenter = (facesArray[0].x + facesArray[0].width + facesArray[0].x) / 2;
             yCenter = (facesArray[0].y + facesArray[0].y + facesArray[0].height) / 2;
             //((ModelSurfaceView) gLView).getRenderer().moveModel(-1.,0);
-            Log.e("alex","x: "+xCenter+ " "+ "y: "+yCenter );
-            gLView.requestRender();
+            //Log.e("alex","x: "+xCenter+ " "+ "y: "+yCenter );
+            //gLView.requestRender();
+
         }
         runOnUiThread(new Runnable() {
             @Override
@@ -382,6 +401,10 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
                     layoutParams.leftMargin = (facesArray[0].x + facesArray[0].width + facesArray[0].x) / 2;
                     layoutParams.topMargin = (facesArray[0].y + facesArray[0].y + facesArray[0].height) / 2;
                     gLView.setLayoutParams(layoutParams);
+                    gLView.setVisibility(View.VISIBLE);
+                }
+                else {
+                    gLView.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -527,6 +550,13 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 
     public void onRecreateClick(View v) {
         learn_frames = 0;
+    }
+
+    public void switchCamera(View v) {
+        mCameraId = mCameraId == CAMERA_ID_FRONT? CAMERA_ID_BACK : CAMERA_ID_FRONT;
+        mOpenCvCameraView.disableView();
+        mOpenCvCameraView.setCameraIndex(mCameraId);
+        mOpenCvCameraView.enableView();
     }
 
     public File getParamFile() {

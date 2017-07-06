@@ -1,6 +1,8 @@
 package com.tp034766.arusermanual;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by User on 5/25/2017.
@@ -8,12 +10,23 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class Product implements Serializable {
     String name;
-    String haarClassifierName;
-    int haarClassifier;
+    String productImgUrl;
+    String brandName;
+    String modelCode;
+    String onlineTutorialLink;
+    String textBasedUserManual;
+    String videoTutorialLink;
+    List<AugmentedRealityInstruction> instructions = new ArrayList<>();
 
-    public Product(String name, String haarClassifierName, int haarClassifier) {
+    public Product(String name, String productImgUrl, String brandName, String modelCode, String onlineTutorialLink
+            , String textBasedUserManual, String videoTutorialLink, List<AugmentedRealityInstruction> instructions) {
         this.name = name;
-        this.haarClassifierName = haarClassifierName;
-        this.haarClassifier = haarClassifier;
+        this.productImgUrl = productImgUrl;
+        this.brandName = brandName;
+        this.modelCode = modelCode;
+        this.onlineTutorialLink = onlineTutorialLink;
+        this.textBasedUserManual = textBasedUserManual;
+        this.videoTutorialLink = videoTutorialLink;
+        this.instructions = instructions;
     }
 }

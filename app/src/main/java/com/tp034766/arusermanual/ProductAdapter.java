@@ -29,7 +29,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public ViewHolder(View v) {
             super(v);
 
-            productName = (TextView) v.findViewById(R.id.textView_productName);
+            productName = (TextView) v.findViewById(R.id.myProducts_textView_productName);
             v.setOnClickListener(this);
         }
 

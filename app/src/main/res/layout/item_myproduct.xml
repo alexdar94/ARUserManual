@@ -3,10 +3,44 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/myProducts_imageView_productPic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@android:drawable/stat_sys_phone_call_forward"
+        android:layout_centerVertical="true"/>
+
     <TextView
-        android:id="@+id/textView_productName"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_vertical"/>
+        android:id="@+id/myProducts_textView_productName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/myProducts_imageView_productPic"
+        android:layout_toRightOf="@id/myProducts_imageView_productPic"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Product Name"
+        android:textSize="22sp"/>
+
+    <TextView
+        android:id="@+id/myProducts_textView_productBrand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/myProducts_textView_productName"
+        android:layout_toRightOf="@id/myProducts_imageView_productPic"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Product Brand"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/myProducts_textView_productModel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/myProducts_textView_productBrand"
+        android:layout_toRightOf="@id/myProducts_imageView_productPic"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Product Model"
+        android:textSize="18sp"/>
 
 </RelativeLayout>
