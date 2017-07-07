@@ -33,6 +33,7 @@ dependencies {
     compile 'com.google.firebase:firebase-database:10.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'info.hoang8f:fbutton:1.0.5'
+    compile 'com.google.code.gson:gson:2.7'
     testCompile 'junit:junit:4.12'
 }
 

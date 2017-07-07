@@ -9,6 +9,7 @@ import java.util.List;
  */
 @SuppressWarnings("serial")
 public class Product implements Serializable {
+    String id;
     String name;
     String productImgUrl;
     String brandName;
@@ -18,8 +19,9 @@ public class Product implements Serializable {
     String videoTutorialLink;
     List<AugmentedRealityInstruction> instructions = new ArrayList<>();
 
-    public Product(String name, String productImgUrl, String brandName, String modelCode, String onlineTutorialLink
+    public Product(String id, String name, String productImgUrl, String brandName, String modelCode, String onlineTutorialLink
             , String textBasedUserManual, String videoTutorialLink, List<AugmentedRealityInstruction> instructions) {
+        this.id = id;
         this.name = name;
         this.productImgUrl = productImgUrl;
         this.brandName = brandName;

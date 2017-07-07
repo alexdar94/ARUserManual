@@ -50,7 +50,8 @@
         android:layout_above="@+id/product_button_videoTut"
         android:layout_marginBottom="8dp"
         android:text="View Tutorial Online"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:onClick="onlineTut"/>
 
     <info.hoang8f.widget.FButton
         android:id="@+id/product_button_videoTut"
@@ -66,7 +67,8 @@
         android:layout_above="@+id/product_button_textTut"
         android:layout_marginBottom="8dp"
         android:text="Video Tutorial"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:onClick="videoTut"/>
 
     <info.hoang8f.widget.FButton
         android:id="@+id/product_button_textTut"
@@ -82,7 +84,8 @@
         android:layout_above="@+id/product_button_ARTut"
         android:layout_marginBottom="8dp"
         android:text="Text User Manual"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:onClick="textTut"/>
 
     <info.hoang8f.widget.FButton
         android:id="@+id/product_button_ARTut"
@@ -98,5 +101,6 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:text="AR User Manual"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:onClick="ARTut"/>
 </RelativeLayout>
