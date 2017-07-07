@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,6 +29,26 @@ public class MyProductsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_products);
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+//        String key = mDatabase.child("Products").push().getKey();
+        //Log.e("fb",key+"");
+//        mDatabase.child("Products/"+key+"/name").setValue("Deep Hydration Sheet Mask");
+//        mDatabase.child("Products/"+key+"/productImgUrl").setValue("https://www.nerdfitness.com/blog/what-do-you-bench-strength-training-101-the-bench-press/");
+//        mDatabase.child("Products/"+key+"/brandName").setValue("Dr. Jart+");
+//        mDatabase.child("Products/"+key+"/modelCode").setValue("FYP01234");
+//        mDatabase.child("Products/"+key+"/onlineTutorialLink").setValue("https://www.wellandgood.com/good-looks/how-to-use-natural-koran-sheet-masks/");
+//        mDatabase.child("Products/"+key+"/textBasedUserManual").setValue("Deep Hydration Sheet Mask official text manual");
+//        mDatabase.child("Products/"+key+"/videoTutorialLink").setValue("https://www.youtube.com/watch?v=3IvBGQg8ats");
+
+//        mDatabase.child("ARInstructions/-KoSK3SiB9fsxDgMK1PJ/stepNo").setValue(0);
+//        mDatabase.child("ARInstructions/-KoSK3SiB9fsxDgMK1PJ/textInstruction").setValue(0);
+//        int stepNo;
+//        String textInstruction;
+//        String haarClassifierName;
+//        int x;
+//        int y;
+//        double scaleFactor;
 
         mPrefs = getSharedPreferences("APPSP",MODE_PRIVATE);
         json = mPrefs.getString("MYPRODUCTS", "");
