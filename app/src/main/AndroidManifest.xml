@@ -49,7 +49,7 @@
             -->
         </activity>
         <activity
-            android:name=".ClassifierActivity"
+            android:name=".ARUserManualActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="landscape"
             android:theme="@style/NoActionBar" />
@@ -69,6 +69,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MyProductsActivity" />
+        </activity>
+        <activity android:name=".TextUserManualActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProductActivity" />
         </activity>
     </application>
 

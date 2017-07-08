@@ -41,6 +41,12 @@ public class MyProductsActivity extends AppCompatActivity {
 //        mDatabase.child("Products/"+key+"/textBasedUserManual").setValue("Deep Hydration Sheet Mask official text manual");
 //        mDatabase.child("Products/"+key+"/videoTutorialLink").setValue("https://www.youtube.com/watch?v=3IvBGQg8ats");
 
+        List<AugmentedRealityInstruction> instructions = new ArrayList<>();
+        instructions.add(new AugmentedRealityInstruction(0, "Press ON/OFF button to switch on the remote control", "haarcascade_remotecontrol.xml", 1,20,20));
+        instructions.add(new AugmentedRealityInstruction(1, "Press and hold SET button for 6 seconds", "haarcascade_remotecontrol.xml", 1,200,30));
+        instructions.add(new AugmentedRealityInstruction(2, "When the type code has changed (+1), release SET button for auto searching", "haarcascade_remotecontrol.xml", 1,40,40));
+        instructions.add(new AugmentedRealityInstruction(3, "When the air cond starts automatically, double press OK button","haarcascade_remotecontrol.xml", 1,100,100));
+        instructions.add(new AugmentedRealityInstruction(4, "Now the remote control is setup, you can test the functions like TEMP+/-,WIND...","haarcascade_remotecontrol.xml", 1,100,100));
 //        mDatabase.child("ARInstructions/-KoSK3SiB9fsxDgMK1PJ/stepNo").setValue(0);
 //        mDatabase.child("ARInstructions/-KoSK3SiB9fsxDgMK1PJ/textInstruction").setValue(0);
 //        int stepNo;

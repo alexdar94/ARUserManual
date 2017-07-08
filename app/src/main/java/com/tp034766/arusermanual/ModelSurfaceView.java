@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 
 public class ModelSurfaceView extends GLSurfaceView {
 
-    private ClassifierActivity parent;
+    private ARUserManualActivity parent;
     private ModelRenderer mRenderer;
 
     public ModelSurfaceView(Context context){
@@ -21,7 +21,7 @@ public class ModelSurfaceView extends GLSurfaceView {
     public ModelSurfaceView(Context context, AttributeSet attribs) {
         super(context, attribs);
 
-        this.parent = (ClassifierActivity)context;
+        this.parent = (ARUserManualActivity)context;
         // Create an OpenGL ES 2.0 context
         setEGLContextClientVersion(2);
 
@@ -36,7 +36,7 @@ public class ModelSurfaceView extends GLSurfaceView {
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
-    public ClassifierActivity getModelActivity() {
+    public ARUserManualActivity getModelActivity() {
         return parent;
     }
 

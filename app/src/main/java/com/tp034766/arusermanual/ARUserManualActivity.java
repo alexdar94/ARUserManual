@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ import java.io.InputStream;
 import static org.opencv.android.CameraBridgeViewBase.CAMERA_ID_BACK;
 import static org.opencv.android.CameraBridgeViewBase.CAMERA_ID_FRONT;
 
-public class ClassifierActivity extends AppCompatActivity implements CvCameraViewListener2 {
+public class ARUserManualActivity extends AppCompatActivity implements CvCameraViewListener2 {
     private Product product;
 
     private static final String TAG = "OCVSample::Activity";
@@ -96,6 +97,10 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
     private GLSurfaceView gLView;
     private String paramAssetDir;
     private String paramAssetFilename;
+
+    private ImageButton prevButton,nextButton;
+    private TextView instructionTextView;
+    private int currentInstructionIndex;
     /**
      * The file to load. Passed as input parameter
      */
@@ -187,9 +192,7 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
         }
     };
 
-
-
-    public ClassifierActivity() {
+    public ARUserManualActivity() {
         mDetectorName = new String[2];
         mDetectorName[JAVA_DETECTOR] = "Java";
 
@@ -207,9 +210,14 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
 
 //        gLView = new ModelSurfaceView(this);
 //        setContentView(gLView);
-        setContentView(R.layout.activity_classifier);
+        setContentView(R.layout.activity_arusermanual);
 
         product = (Product) getIntent().getSerializableExtra("PRODUCT");
+        prevButton = (ImageButton) findViewById(R.id.ar_imageButton_prev);
+        nextButton = (ImageButton) findViewById(R.id.ar_imageButton_next);
+        instructionTextView = (TextView) findViewById(R.id.ar_textView_instruction);
+        currentInstructionIndex = 0;
+        refreshInstruction();
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.cameraView_ClassifierActivity);
         mOpenCvCameraView.setCvCameraViewListener(this);
@@ -265,6 +273,29 @@ public class ClassifierActivity extends AppCompatActivity implements CvCameraVie
         scene.init();
     }
 
+    public void refreshInstruction() {
+        AugmentedRealityInstruction currentInstruction = product.instructions.get(currentInstructionIndex);
+        Log.e("show text ins",currentInstruction.textInstruction+"");
+        instructionTextView.setText(currentInstruction.textInstruction);
+        if (currentInstructionIndex == 0) {
+            prevButton.setVisibility(View.INVISIBLE);
+        }else if(currentInstructionIndex == product.instructions.size()-1){
+            nextButton.setVisibility(View.INVISIBLE);
+        }else {
+            prevButton.setVisibility(View.VISIBLE);
+            nextButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void prev(View view){
+        currentInstructionIndex--;
+        refreshInstruction();
+    }
+
+    public void next(View view){
+        currentInstructionIndex++;
+        refreshInstruction();
+    }
     @Override
     public void onPause() {
         super.onPause();

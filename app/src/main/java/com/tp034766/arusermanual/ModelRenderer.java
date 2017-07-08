@@ -32,7 +32,7 @@ import static android.content.ContentValues.TAG;
 public class ModelRenderer implements GLSurfaceView.Renderer {
     // 3D window (parent component)
     private ModelSurfaceView main;
-    private ClassifierActivity parent;
+    private ARUserManualActivity parent;
     // width of the screen
     private int width;
     // height of the screen
@@ -63,7 +63,7 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
     // light position required to render with lighting
     private final float[] lightPosInEyeSpace = new float[4];
 
-    public ModelRenderer(ClassifierActivity parent) {
+    public ModelRenderer(ARUserManualActivity parent) {
         this.parent = parent;
     }
 

@@ -2,6 +2,7 @@ package com.tp034766.arusermanual;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -59,6 +60,14 @@ public class ProductActivity extends AppCompatActivity {
         tv_productBrand.setText(product.brandName);
         tv_productModel.setText(product.modelCode);
         Picasso.with(this).load(product.productImgUrl).placeholder(R.mipmap.ic_launcher).into(iv_productImage);
+
+        List<AugmentedRealityInstruction> instructions = new ArrayList<>();
+        instructions.add(new AugmentedRealityInstruction(0, "Press ON/OFF button to switch on the remote control", "haarcascade_remotecontrol.xml", 1,20,20));
+        instructions.add(new AugmentedRealityInstruction(1, "Press and hold SET button for 6 seconds", "haarcascade_remotecontrol.xml", 1,200,30));
+        instructions.add(new AugmentedRealityInstruction(2, "When the type code has increased by, release SET button for auto searching", "haarcascade_remotecontrol.xml", 1,40,40));
+        instructions.add(new AugmentedRealityInstruction(3, "When the air cond starts automatically, double press OK button","haarcascade_remotecontrol.xml", 1,100,100));
+        instructions.add(new AugmentedRealityInstruction(4, "Now the remote control is setup, you can test the functions like TEMP+/-,WIND...","haarcascade_remotecontrol.xml", 1,100,100));
+        product.instructions = instructions;
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,19 +94,21 @@ public class ProductActivity extends AppCompatActivity {
     }
 
     public void onlineTut(View view){
-
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(product.onlineTutorialLink)));
     }
 
     public void videoTut(View view){
-
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(product.videoTutorialLink)));
     }
 
     public void textTut(View view){
-
+        Intent intent = new Intent(this, ProductActivity.class);
+        intent.putExtra("PRODUCT",product);
+        startActivity(intent);
     }
 
     public void ARTut(View view){
-        Intent intent = new Intent(this, ClassifierActivity.class);
+        Intent intent = new Intent(this, ARUserManualActivity.class);
         intent.putExtra("PRODUCT",product);
         startActivity(intent);
     }

@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:hint="Enter product name, brand name or model code"/>
+        android:backgroundTint="@color/theme_light_blue"
+        android:hint="Enter product name, brand name or model code"
+        android:textSize="16sp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/searchProduct_recyclerView"

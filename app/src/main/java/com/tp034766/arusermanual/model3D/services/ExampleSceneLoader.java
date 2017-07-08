@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.tp034766.arusermanual.ClassifierActivity;
+import com.tp034766.arusermanual.ARUserManualActivity;
 import com.tp034766.arusermanual.model3D.model.Object3DBuilder;
 import com.tp034766.arusermanual.model3D.model.Object3DData;
 import org.apache.commons.io.IOUtils;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class ExampleSceneLoader extends SceneLoader {
 
-	public ExampleSceneLoader(ClassifierActivity activity) {
+	public ExampleSceneLoader(ARUserManualActivity activity) {
 		super(activity);
 	}
 

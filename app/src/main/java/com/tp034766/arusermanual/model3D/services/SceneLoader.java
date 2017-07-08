@@ -4,7 +4,7 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.tp034766.arusermanual.ClassifierActivity;
+import com.tp034766.arusermanual.ARUserManualActivity;
 import com.tp034766.arusermanual.model3D.model.Object3DBuilder;
 import com.tp034766.arusermanual.model3D.model.Object3DBuilder.Callback;
 import com.tp034766.arusermanual.model3D.model.Object3DData;
@@ -31,7 +31,7 @@ public class SceneLoader {
 	/**
 	 * Parent component
 	 */
-	protected final ClassifierActivity parent;
+	protected final ARUserManualActivity parent;
 	/**
 	 * List of data objects containing info for building the opengl objects
 	 */
@@ -78,7 +78,7 @@ public class SceneLoader {
 	 */
 	private final Object3DData lightPoint = Object3DBuilder.buildPoint(new float[4]).setId("light").setPosition(lightPosition);
 
-	public SceneLoader(ClassifierActivity main) {
+	public SceneLoader(ARUserManualActivity main) {
 		this.parent = main;
 	}
 
