@@ -12,7 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
@@ -38,13 +44,10 @@ public class ProductActivity extends AppCompatActivity {
         json = mPrefs.getString("MYPRODUCTS", "");
         product = (Product) getIntent().getSerializableExtra("PRODUCT");
         if(json!=""){
-            Log.e("json",json);
             Type type = new TypeToken<List<Product>>(){}.getType();
             products= gson.fromJson(json, type);
             for(Product product: products){
-                Log.e("product","found");
                 if(product.id.equals(this.product.id)){
-                    Log.e("product","saved");
                     isSaved = true;
                     break;
                 }
@@ -61,13 +64,31 @@ public class ProductActivity extends AppCompatActivity {
         tv_productModel.setText(product.modelCode);
         Picasso.with(this).load(product.productImgUrl).placeholder(R.mipmap.ic_launcher).into(iv_productImage);
 
-        List<AugmentedRealityInstruction> instructions = new ArrayList<>();
-        instructions.add(new AugmentedRealityInstruction(0, "Press ON/OFF button to switch on the remote control", "haarcascade_remotecontrol.xml", 1,20,20));
-        instructions.add(new AugmentedRealityInstruction(1, "Press and hold SET button for 6 seconds", "haarcascade_remotecontrol.xml", 1,200,30));
-        instructions.add(new AugmentedRealityInstruction(2, "When the type code has increased by, release SET button for auto searching", "haarcascade_remotecontrol.xml", 1,40,40));
-        instructions.add(new AugmentedRealityInstruction(3, "When the air cond starts automatically, double press OK button","haarcascade_remotecontrol.xml", 1,100,100));
-        instructions.add(new AugmentedRealityInstruction(4, "Now the remote control is setup, you can test the functions like TEMP+/-,WIND...","haarcascade_remotecontrol.xml", 1,100,100));
-        product.instructions = instructions;
+        if(product.name.equals("Universal A/C Remote Control") && product.instructions.size()<=0){
+            Log.e("ProductActivity","ar instruction not downloaded");
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase.child("ARInstructions/"+product.id).addListenerForSingleValueEvent(new ValueEventListener(){
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    List<AugmentedRealityInstruction> instructions = new ArrayList<>();
+                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                        Log.e("print",snapshot.child("stepNo").getValue()+"");
+                        instructions.add(new AugmentedRealityInstruction(((Long) snapshot.child("stepNo").getValue()).intValue()
+                                , (String)snapshot.child("textInstruction").getValue()
+                                , (String)snapshot.child("haarClassifierName").getValue()
+                                , ((Long) snapshot.child("scaleFactor").getValue()).doubleValue()
+                                , ((Long) snapshot.child("x").getValue()).intValue()
+                                , ((Long) snapshot.child("y").getValue()).intValue()));
+                    }
+                    product.instructions = instructions;
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -102,15 +123,19 @@ public class ProductActivity extends AppCompatActivity {
     }
 
     public void textTut(View view){
-        Intent intent = new Intent(this, ProductActivity.class);
+        Intent intent = new Intent(this, TextUserManualActivity.class);
         intent.putExtra("PRODUCT",product);
         startActivity(intent);
     }
 
     public void ARTut(View view){
-        Intent intent = new Intent(this, ARUserManualActivity.class);
-        intent.putExtra("PRODUCT",product);
-        startActivity(intent);
+        if(product.name.equals("Universal A/C Remote Control") && product.instructions.size()>0){
+            Intent intent = new Intent(this, ARUserManualActivity.class);
+            intent.putExtra("PRODUCT",product);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this,"Coming Soon",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void refreshAddMenuButton(boolean isSaved){

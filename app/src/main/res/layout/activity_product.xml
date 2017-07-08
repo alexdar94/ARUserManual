@@ -10,7 +10,8 @@
     <ImageView
         android:id="@+id/product_imageView_productPic"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="180dp"
+        android:padding="20dp"/>
     
     <TextView
         android:id="@+id/product_textView_productName"

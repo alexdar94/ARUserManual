@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,20 +40,13 @@ public class MyProductsActivity extends AppCompatActivity {
 //        mDatabase.child("Products/"+key+"/textBasedUserManual").setValue("Deep Hydration Sheet Mask official text manual");
 //        mDatabase.child("Products/"+key+"/videoTutorialLink").setValue("https://www.youtube.com/watch?v=3IvBGQg8ats");
 
-        List<AugmentedRealityInstruction> instructions = new ArrayList<>();
-        instructions.add(new AugmentedRealityInstruction(0, "Press ON/OFF button to switch on the remote control", "haarcascade_remotecontrol.xml", 1,20,20));
-        instructions.add(new AugmentedRealityInstruction(1, "Press and hold SET button for 6 seconds", "haarcascade_remotecontrol.xml", 1,200,30));
-        instructions.add(new AugmentedRealityInstruction(2, "When the type code has changed (+1), release SET button for auto searching", "haarcascade_remotecontrol.xml", 1,40,40));
-        instructions.add(new AugmentedRealityInstruction(3, "When the air cond starts automatically, double press OK button","haarcascade_remotecontrol.xml", 1,100,100));
-        instructions.add(new AugmentedRealityInstruction(4, "Now the remote control is setup, you can test the functions like TEMP+/-,WIND...","haarcascade_remotecontrol.xml", 1,100,100));
-//        mDatabase.child("ARInstructions/-KoSK3SiB9fsxDgMK1PJ/stepNo").setValue(0);
-//        mDatabase.child("ARInstructions/-KoSK3SiB9fsxDgMK1PJ/textInstruction").setValue(0);
-//        int stepNo;
-//        String textInstruction;
-//        String haarClassifierName;
-//        int x;
-//        int y;
-//        double scaleFactor;
+//        List<AugmentedRealityInstruction> instructions = new ArrayList<>();
+//        instructions.add(new AugmentedRealityInstruction(0, "Press ON/OFF button to switch on the remote control", "haarcascade_remotecontrol.xml", 1,180,230));
+//        instructions.add(new AugmentedRealityInstruction(1, "Press and hold SET button for 6 seconds", "haarcascade_remotecontrol.xml", 1,20,470));
+//        instructions.add(new AugmentedRealityInstruction(2, "When the type code has increased by 1, release SET button for auto searching", "haarcascade_remotecontrol.xml", 1,150,130));
+//        instructions.add(new AugmentedRealityInstruction(3, "When the air cond starts automatically, double press OK button","haarcascade_remotecontrol.xml", 1,160,470));
+//        instructions.add(new AugmentedRealityInstruction(4, "Now the remote control is setup, you can test the functions like TEMP+/-,WIND...","haarcascade_remotecontrol.xml", 1,120,300));
+//        mDatabase.child("ARInstructions/-KoSK3SiB9fsxDgMK1PJ").setValue(instructions);
 
         mPrefs = getSharedPreferences("APPSP",MODE_PRIVATE);
         json = mPrefs.getString("MYPRODUCTS", "");
@@ -63,7 +55,7 @@ public class MyProductsActivity extends AppCompatActivity {
 //        products.add(new Product("Face product","lbpcascade_frontalface.xml",R.raw.lbpcascade_frontalface));
 //        products.add(new Product("Teeth product","haarcascade_smile.xml",R.raw.haarcascade_smile));
 //        products.add(new Product("Nose product","haarcascade_mcs_nose.xml",R.raw.haarcascade_mcs_nose));
-//        instructions.add(new AugmentedRealityInstruction(0, "instruction 0", "haarcascade_remotecontrol.xml", 1,20,20));
+//        instructions.add(new AugmentedRealityInstruction(0, "instruction 0", "haarcascade_remotecontrol.xml", 1,150,200));
 //        instructions.add(new AugmentedRealityInstruction(1, "instruction 1", "haarcascade_remotecontrol.xml", 1,200,30));
 //        instructions.add(new AugmentedRealityInstruction(2, "instruction 2", "haarcascade_remotecontrol.xml", 1,40,40));
 //        instructions.add(new AugmentedRealityInstruction(3, "instruction 3", "haarcascade_remotecontrol.xml", 1,100,100));
@@ -74,7 +66,6 @@ public class MyProductsActivity extends AppCompatActivity {
         if(json!=""){
             Type type = new TypeToken<List<Product>>(){}.getType();
             products= gson.fromJson(json, type);
-            Log.e("json new",products.size()+"");
         }
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);

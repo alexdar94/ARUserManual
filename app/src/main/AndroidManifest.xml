@@ -32,7 +32,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="My Products"
+
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -40,7 +40,6 @@
             android:name=".MainActivity"
             android:screenOrientation="landscape"
             android:theme="@style/NoActionBar">
-
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,24 +52,24 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="landscape"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".MyProductsActivity">
+        <activity android:name=".MyProductsActivity" android:label="My Product">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchProductActivity">
+        <activity android:name=".SearchProductActivity" android:label="Search Product">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MyProductsActivity" />
         </activity>
-        <activity android:name=".ProductActivity">
+        <activity android:name=".ProductActivity" android:label="Product" android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MyProductsActivity" />
         </activity>
-        <activity android:name=".TextUserManualActivity">
+        <activity android:name=".TextUserManualActivity" android:label="Text User Manual">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ProductActivity" />

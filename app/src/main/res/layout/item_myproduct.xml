@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/myProducts_imageView_productPic"
@@ -19,7 +20,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="Product Name"
-        android:textSize="22sp"/>
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/myProducts_textView_productBrand"
@@ -30,7 +31,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="Product Brand"
-        android:textSize="18sp"/>
+        android:textSize="12sp"/>
 
     <TextView
         android:id="@+id/myProducts_textView_productModel"
@@ -41,6 +42,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="Product Model"
-        android:textSize="18sp"/>
+        android:textSize="12sp"/>
 
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -101,6 +102,8 @@ public class ARUserManualActivity extends AppCompatActivity implements CvCameraV
     private ImageButton prevButton,nextButton;
     private TextView instructionTextView;
     private int currentInstructionIndex;
+    private int currentInstructionX;
+    private int currentInstructionY;
     /**
      * The file to load. Passed as input parameter
      */
@@ -192,6 +195,7 @@ public class ARUserManualActivity extends AppCompatActivity implements CvCameraV
         }
     };
 
+
     public ARUserManualActivity() {
         mDetectorName = new String[2];
         mDetectorName[JAVA_DETECTOR] = "Java";
@@ -275,8 +279,9 @@ public class ARUserManualActivity extends AppCompatActivity implements CvCameraV
 
     public void refreshInstruction() {
         AugmentedRealityInstruction currentInstruction = product.instructions.get(currentInstructionIndex);
-        Log.e("show text ins",currentInstruction.textInstruction+"");
         instructionTextView.setText(currentInstruction.textInstruction);
+        currentInstructionX = currentInstruction.x;
+        currentInstructionY = currentInstruction.y;
         if (currentInstructionIndex == 0) {
             prevButton.setVisibility(View.INVISIBLE);
         }else if(currentInstructionIndex == product.instructions.size()-1){
@@ -296,6 +301,44 @@ public class ARUserManualActivity extends AppCompatActivity implements CvCameraV
         currentInstructionIndex++;
         refreshInstruction();
     }
+
+    private float x1,x2;
+    static final int MIN_DISTANCE = 150;
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        switch(event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                float deltaX = x2 - x1;
+                if (Math.abs(deltaX) > MIN_DISTANCE)
+                {
+                    // Left to Right swipe action
+                    if (x2 > x1 && currentInstructionIndex < product.instructions.size()-1)
+                    {
+                        currentInstructionIndex++;
+                        refreshInstruction();
+                    }
+                    // Right to left swipe action
+                    else if (x2 < x1 && currentInstructionIndex >0)
+                    {
+                        currentInstructionIndex--;
+                        refreshInstruction();
+                    }
+                }
+                else
+                {
+                    // consider as something else - a screen tap for example
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -428,9 +471,11 @@ public class ARUserManualActivity extends AppCompatActivity implements CvCameraV
             @Override
             public void run() {
                 if(facesArray.length>0){
-                    RelativeLayout.LayoutParams layoutParams=new RelativeLayout.LayoutParams(facesArray[0].width, facesArray[0].height);
-                    layoutParams.leftMargin = (facesArray[0].x + facesArray[0].width + facesArray[0].x) / 2;
-                    layoutParams.topMargin = (facesArray[0].y + facesArray[0].y + facesArray[0].height) / 2;
+                    RelativeLayout.LayoutParams layoutParams=new RelativeLayout.LayoutParams(facesArray[0].width/3, facesArray[0].height/3);
+//                    layoutParams.leftMargin = (facesArray[0].x + facesArray[0].width + facesArray[0].x) / 3;
+//                    layoutParams.topMargin = (facesArray[0].y + facesArray[0].y + facesArray[0].height) / 3;
+                    layoutParams.leftMargin = facesArray[0].x +320+currentInstructionX;
+                    layoutParams.topMargin = facesArray[0].y+currentInstructionY;
                     gLView.setLayoutParams(layoutParams);
                     gLView.setVisibility(View.VISIBLE);
                 }
